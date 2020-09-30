@@ -1,6 +1,4 @@
 locals {
-  //  auth_labels = { app = "dashboard-ldap-auth" }
-  //  tokens_labels = { app = "tokens-for-dashboard" }
   tokens_env = [
     {
       name = "ADMIN_TOKEN_NAME"
