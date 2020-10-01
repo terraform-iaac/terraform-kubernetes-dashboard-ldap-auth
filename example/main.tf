@@ -1,4 +1,4 @@
-module "kuberntes_auth_dashboard" {
+module "kubernetes_auth_dashboard" {
   source = "git::https://github.com/greg-solutions/terraform_k8s_dashboard_ldap_auth.git?ref=v1.0.0"
 
   domain = "example.com"

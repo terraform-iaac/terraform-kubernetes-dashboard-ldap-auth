@@ -132,5 +132,5 @@ variable "user_group_name" {
 variable "read_only_group_name" {
   description = "Read only group name in LDAP server"
   type = string
-  default = "dashboard-admin"
+  default = "dashboard-read-only"
 }

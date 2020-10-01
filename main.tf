@@ -154,7 +154,7 @@ resource "kubernetes_cluster_role" "user_cluster_role" {
   }
   rule {
     api_groups = [""]
-    resources  = ["namespaces", "pods", "nodes"]
+    resources  = ["namespaces", "pods", "nodes", "pods/log", "deployments", "jobs", "services"]
     verbs      = ["get", "list", "watch"]
   }
 }
@@ -206,8 +206,8 @@ resource "kubernetes_cluster_role" "read_only_cluster_role" {
   }
   rule {
     api_groups = [""]
-    resources  = ["pods"]
-    verbs      = ["get", "list", "watch"]
+    resources  = ["pods", "namespaces"]
+    verbs      = ["list", "watch"]
   }
 }
 resource "kubernetes_cluster_role_binding" "read_only_role_binding" {
