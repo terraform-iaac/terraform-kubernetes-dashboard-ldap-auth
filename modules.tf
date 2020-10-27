@@ -45,6 +45,7 @@ module "recreate_token_service" {
   app_name      = module.recreate_token_deploy.name
   app_namespace = var.namespace
   type          = "NodePort"
+  port_mapping  = var.service_ports
   custom_labels = {
     app     = "${module.recreate_token_deploy.name}"
     primary = "true"
