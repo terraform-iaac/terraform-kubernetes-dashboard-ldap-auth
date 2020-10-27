@@ -1,6 +1,6 @@
 # Auth service deployment
 module "auth_deploy" {
-  source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.5"
+  source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.7"
 
   name          = "dashboard-ldap-auth"
   namespace     = var.namespace
@@ -26,7 +26,7 @@ module "auth_service" {
 
 # Deployment of service for recreate new tokens for service account users
 module "recreate_token_deploy" {
-  source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.5"
+  source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.7"
 
   name                  = "tokens-for-dashboard"
   namespace             = var.namespace
