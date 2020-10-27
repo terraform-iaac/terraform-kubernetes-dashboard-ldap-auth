@@ -1,15 +1,35 @@
+module "kubernetes_dashboard" {
+  source = "git::https://github.com/greg-solutions/terraform_k8s_dashboard.git?ref=v1.1.3"
+
+  domain         = "example.com"
+  tls            = "secret-tls"
+  additional_set = [
+    {
+      name       = "ingress.annotations.kubernetes\\.io/ingress\\.class"
+      value      = "nginx-internal"
+      type       = "string"
+    },
+    // For ldap auth
+    {
+      name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/auth-url"
+      value = "http://${module.kubernetes_auth_dashboard.name}.${module.kubernetes_auth_dashboard.namespace}.svc.cluster.local/"
+      type  = "string"
+    },
+    {
+      name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/auth-cache-duration"
+      value = "200 201 202 10m"
+      type  = "string"
+    },
+    {
+      name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/auth-response-headers"
+      value = "Authorization"
+      type  = "string"
+    }
+  ]
+}
+
 module "kubernetes_auth_dashboard" {
   source = "git::https://github.com/greg-solutions/terraform_k8s_dashboard_ldap_auth.git?ref=v1.0.0"
-
-  domain = "example.com"
-  tls = "secret-tls"
-  cidr_whitelist = "0.0.0.0/0, 1.1.1.1/1"
-
-  namespace = "kuberntes-auth-dashboard"
-
-  # Service account names for base roles
-  user_service_account = "kubernetes-dashboard-user"
-  read_only_account = "kubernetes-dashboard-read-only"
 
   # LDAP parameters
   ldap_reader_password = "lam"  // reader bind pass

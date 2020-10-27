@@ -26,7 +26,7 @@ locals {
     },
     {
       name = "NAMESPACE"
-      value = var.create_namespace ? kubernetes_namespace.namespace[0].id : var.namespace
+      value = var.namespace
     }
   ]
   auth_env = [

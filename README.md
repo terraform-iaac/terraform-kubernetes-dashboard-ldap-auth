@@ -1,14 +1,35 @@
-# Modules for create kubernetes dashboard with LDAP authenticate  
+# Modules for create kubernetes dashboard with LDAP authentication  
 
-## For enable monitoring in dashboard you must have metrics from kube:
+## For enable ldap in dashboard you must have kubernetes-dashboard module with specific ingress annotations:
  ```shell script
-resource "helm_release" "metrics_server" {
-  name = "metrics-server"
-  repository = "stable"
-  chart = "metrics-server"
-  namespace = "kube-system"
-  cleanup_on_fail = true
-  version = "2.11.1"
+module "kubernetes_dashboard" {
+  source = "git::https://github.com/greg-solutions/terraform_k8s_dashboard.git?ref=v1.1.3"
+
+  domain         = "example.com"
+  tls            = "secret-tls"
+  additional_set = [
+    {
+      name       = "ingress.annotations.kubernetes\\.io/ingress\\.class"
+      value      = var.internal_nginx_class
+      type       = "string"
+    },
+    // For ldap auth
+    {
+      name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/auth-url"
+      value = "http://${your_auth_service_name_in_kubernetes}.${kubernetes_dashboard_namespace}.svc.cluster.local/"
+      type  = "string"
+    },
+    {
+      name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/auth-cache-duration"
+      value = "200 201 202 10m"
+      type  = "string"
+    },
+    {
+      name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/auth-response-headers"
+      value = "Authorization"
+      type  = "string"
+    }
+  ]
 }
  ```
 
