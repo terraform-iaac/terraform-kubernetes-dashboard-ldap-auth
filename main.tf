@@ -6,7 +6,6 @@ resource "kubernetes_service_account" "admin_service_account" {
     name      = var.admin_service_account
     namespace = var.namespace
   }
-  automount_service_account_token = true
 }
 resource "kubernetes_cluster_role_binding" "admin_role_binding" {
   count = var.create_admin_role ? 1 : 0
@@ -56,7 +55,6 @@ resource "kubernetes_service_account" "user_service_account" {
     name      = var.user_service_account
     namespace = var.namespace
   }
-  automount_service_account_token = false
 }
 resource "kubernetes_cluster_role" "user_cluster_role" {
   count = var.create_user_role ? 1 : 0
@@ -110,7 +108,6 @@ resource "kubernetes_service_account" "read_only_service_account" {
     name      = var.read_only_service_account
     namespace = var.namespace
   }
-  automount_service_account_token = false
 }
 resource "kubernetes_cluster_role" "read_only_cluster_role" {
   count = var.create_read_only_role ? 1 : 0

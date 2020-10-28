@@ -18,13 +18,12 @@ module "auth_service" {
   app_name      = module.auth_deploy.name
   app_namespace = var.namespace
   port_mapping  = var.service_ports
-  type          = "NodePort"
   custom_labels = {
     app = "${module.auth_deploy.name}"
   }
 }
 
-# Deployment of service for recreate new tokens for service account users
+# Deployment for recreate new tokens for users service account
 module "recreate_token_deploy" {
   source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.7"
 
@@ -38,16 +37,4 @@ module "recreate_token_deploy" {
     app = "tokens-for-dashboard"
   }
   env = local.tokens_env
-}
-module "recreate_token_service" {
-  source = "git::https://github.com/greg-solutions/terraform_k8s_service.git?ref=v1.0.0"
-
-  app_name      = module.recreate_token_deploy.name
-  app_namespace = var.namespace
-  type          = "NodePort"
-  port_mapping  = var.service_ports
-  custom_labels = {
-    app     = "${module.recreate_token_deploy.name}"
-    primary = "true"
-  }
 }
