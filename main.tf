@@ -1,4 +1,4 @@
-# Admin Auth Token
+# Admin Auth service account
 resource "kubernetes_service_account" "admin_service_account" {
   count = var.create_admin_role ? 1 : 0
 
@@ -47,7 +47,7 @@ resource "kubernetes_secret" "admin_auth_token" {
 }
 
 
-# User Auth Token
+# User Auth service account
 resource "kubernetes_service_account" "user_service_account" {
   count = var.create_user_role ? 1 : 0
 
@@ -100,7 +100,7 @@ resource "kubernetes_secret" "user_auth_token" {
 }
 
 
-# Read Only Auth Token
+# Read Only Auth service account
 resource "kubernetes_service_account" "read_only_service_account" {
   count = var.create_read_only_role ? 1 : 0
 
@@ -152,7 +152,7 @@ resource "kubernetes_secret" "read_only_auth_token" {
   type = "kubernetes.io/service-account-token"
 }
 
-# Secret for bind users passwords
+# Secret storage for bind users passwords
 resource "kubernetes_secret" "pswd_secrets" {
   metadata {
     name      = "password-secrets"

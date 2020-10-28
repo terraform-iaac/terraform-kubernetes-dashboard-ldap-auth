@@ -6,9 +6,7 @@ module "auth_deploy" {
   namespace     = var.namespace
   image         = "admindod/k8s_ldap_auth:v1.0.9"
   internal_port = var.service_ports
-  custom_labels = {
-    app = "dashboard-ldap-auth"
-  }
+
   env        = local.auth_env
   env_secret = local.auth_env_secret
 }
@@ -18,23 +16,19 @@ module "auth_service" {
   app_name      = module.auth_deploy.name
   app_namespace = var.namespace
   port_mapping  = var.service_ports
-  custom_labels = {
-    app = "${module.auth_deploy.name}"
-  }
 }
 
 # Deployment for recreate new tokens for users service account
 module "recreate_token_deploy" {
   source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.7"
 
-  name                  = "tokens-for-dashboard"
-  namespace             = var.namespace
-  image                 = "admindod/genarate-tokens:v1.0.8"
+  name      = "tokens-for-dashboard"
+  namespace = var.namespace
+  image     = "admindod/genarate-tokens:v1.0.8"
+  tty       = true
+
   service_account_name  = kubernetes_service_account.admin_service_account[0].metadata[0].name
   service_account_token = true
-  tty                   = true
-  custom_labels = {
-    app = "tokens-for-dashboard"
-  }
+
   env = local.tokens_env
 }

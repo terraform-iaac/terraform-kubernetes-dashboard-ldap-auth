@@ -4,8 +4,6 @@ variable "namespace" {
   default     = "kubernetes-dashboard"
 }
 
-
-//-------------------------------------------LDAP-AUTH----------------------------------------------------------------//
 variable "create_admin_role" {
   description = "Create admin token for auth"
   default     = true
