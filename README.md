@@ -38,4 +38,4 @@ Source: https://kubernetes.github.io/dashboard/
 
 #### For LDAP authentication in dashboard you need config LDAP Active Directory with at least one admin users group (default 'dashboard-admin').
 
-####Folder 'docker' consist Apache LDAP configuration and recreation token script.
+#### Folder 'docker' consist Apache LDAP configuration and recreation token script.
