@@ -64,8 +64,18 @@ resource "kubernetes_cluster_role" "user_cluster_role" {
   }
   rule {
     api_groups = [""]
-    resources  = ["nodes", "namespaces", "pods", "nodes", "pods/log", "deployments", "jobs", "services"]
+    resources  = ["namespaces", "pods", "nodes", "pods/log", "deployments", "jobs", "services", "cronjobs"]
     verbs      = ["get", "list", "watch"]
+  }
+  rule {
+    api_groups = [""]
+    resources  = ["pods/exec"]
+    verbs      = ["create"]
+  }
+  rule {
+    api_groups = [""]
+    resources  = ["nodes"]
+    verbs      = ["list"]
   }
 }
 resource "kubernetes_cluster_role_binding" "user_role_binding" {
@@ -119,6 +129,11 @@ resource "kubernetes_cluster_role" "read_only_cluster_role" {
     api_groups = [""]
     resources  = ["nodes", "pods", "pods/log", "namespaces"]
     verbs      = ["list", "watch"]
+  }
+  rule {
+    api_groups = [""]
+    resources  = ["pods", "pods/log"]
+    verbs      = ["get"]
   }
 }
 resource "kubernetes_cluster_role_binding" "read_only_role_binding" {

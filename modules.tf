@@ -4,7 +4,7 @@ module "auth_deploy" {
 
   name          = "dashboard-ldap-auth"
   namespace     = var.namespace
-  image         = "admindod/k8s_ldap_auth:v1.0.9"
+  image         = "gregsolutions/k8s_dashboard_ldap_auth_service:latest"
   internal_port = var.service_ports
 
   env        = local.auth_env
@@ -24,7 +24,7 @@ module "recreate_token_deploy" {
 
   name      = "tokens-for-dashboard"
   namespace = var.namespace
-  image     = "admindod/genarate-tokens:v1.0.8"
+  image     = "gregsolutions/k8s_dashboard_ldap_auth_recreate_tokens:latest"
   tty       = true
 
   service_account_name  = kubernetes_service_account.admin_service_account[0].metadata[0].name
