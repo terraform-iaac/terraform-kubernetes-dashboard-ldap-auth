@@ -64,7 +64,7 @@ resource "kubernetes_cluster_role" "user_cluster_role" {
   }
   rule {
     api_groups = [""]
-    resources  = ["namespaces", "pods", "nodes", "pods/log", "deployments", "jobs", "services", "cronjobs"]
+    resources  = ["namespaces", "pods", "pods/log", "deployments", "jobs", "services", "cronjobs"]
     verbs      = ["get", "list", "watch"]
   }
   rule {
