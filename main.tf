@@ -44,6 +44,10 @@ resource "kubernetes_secret" "admin_auth_token" {
   }
 
   type = "kubernetes.io/service-account-token"
+
+  lifecycle {
+    ignore_changes = [data]
+  }
 }
 
 
@@ -107,6 +111,10 @@ resource "kubernetes_secret" "user_auth_token" {
   }
 
   type = "kubernetes.io/service-account-token"
+
+  lifecycle {
+    ignore_changes = [data]
+  }
 }
 
 
@@ -165,6 +173,10 @@ resource "kubernetes_secret" "read_only_auth_token" {
   }
 
   type = "kubernetes.io/service-account-token"
+
+  lifecycle {
+    ignore_changes = [data]
+  }
 }
 
 # Secret storage for bind users passwords
