@@ -67,8 +67,23 @@ resource "kubernetes_cluster_role" "user_cluster_role" {
     name = "${var.user_service_account}-cluster-role"
   }
   rule {
+    api_groups = ["batch"]
+    resources  = ["jobs", "cronjobs"]
+    verbs      = ["get", "list", "watch"]
+  }
+  rule {
+    api_groups = ["extensions"]
+    resources  = ["ingresses"]
+    verbs      = ["get", "list", "watch"]
+  }
+  rule {
+    api_groups = ["apps"]
+    resources  = ["deployments", "replicasets", "daemonsets", "statefulsets"]
+    verbs      = ["get", "list", "watch"]
+  }
+  rule {
     api_groups = [""]
-    resources  = ["namespaces", "pods", "pods/log", "deployments", "jobs", "services", "cronjobs"]
+    resources  = ["namespaces", "pods", "pods/log", "services"]
     verbs      = ["get", "list", "watch"]
   }
   rule {
@@ -79,7 +94,7 @@ resource "kubernetes_cluster_role" "user_cluster_role" {
   rule {
     api_groups = [""]
     resources  = ["nodes"]
-    verbs      = ["list"]
+    verbs      = ["get", "list", "watch"]
   }
 }
 resource "kubernetes_cluster_role_binding" "user_role_binding" {
@@ -134,14 +149,19 @@ resource "kubernetes_cluster_role" "read_only_cluster_role" {
     name = "${var.read_only_service_account}-cluster-role"
   }
   rule {
-    api_groups = [""]
-    resources  = ["nodes", "pods", "pods/log", "namespaces"]
+    api_groups = ["batch"]
+    resources  = ["jobs", "cronjobs"]
+    verbs      = ["list", "watch"]
+  }
+  rule {
+    api_groups = ["apps"]
+    resources  = ["deployments", "replicasets", "daemonsets", "statefulsets"]
     verbs      = ["list", "watch"]
   }
   rule {
     api_groups = [""]
-    resources  = ["pods", "pods/log"]
-    verbs      = ["get"]
+    resources  = ["nodes", "pods", "pods/log", "namespaces"]
+    verbs      = ["list", "watch"]
   }
 }
 resource "kubernetes_cluster_role_binding" "read_only_role_binding" {
