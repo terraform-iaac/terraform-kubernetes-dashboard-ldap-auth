@@ -38,4 +38,17 @@ module "kubernetes_auth_dashboard" {
   ldap_attributes      = "sAMAccountName,memberOf"                  // check which group member of auth user
   ldap_scope           = "sub"                                      // can be base, one or sub
   ldap_filter          = "(objectClass=*)"
+
+  additional_readonly_rule = [
+    {
+      api_groups = ["extensions"]
+      resources  = ["ingresses"]
+      verbs      = ["list", "watch"]
+    },
+    {
+      api_groups = ["batch"]
+      resources  = ["jobs", "cronjobs"]
+      verbs      = ["list", "watch"]
+    }
+  ]
 }
