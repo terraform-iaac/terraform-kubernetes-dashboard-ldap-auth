@@ -96,6 +96,15 @@ resource "kubernetes_cluster_role" "user_cluster_role" {
     resources  = ["nodes"]
     verbs      = ["get", "list", "watch"]
   }
+
+  dynamic "rule" {
+    for_each = var.additional_user_rule
+    content {
+      api_groups  = rule.value.api_groups
+      resources = rule.value.resources
+      verbs  = rule.value.verbs
+    }
+  }
 }
 resource "kubernetes_cluster_role_binding" "user_role_binding" {
   count = var.create_user_role ? 1 : 0
@@ -162,6 +171,15 @@ resource "kubernetes_cluster_role" "read_only_cluster_role" {
     api_groups = [""]
     resources  = ["nodes", "pods", "pods/log", "namespaces"]
     verbs      = ["list", "watch"]
+  }
+
+  dynamic "rule" {
+    for_each = var.additional_readonly_rule
+    content {
+      api_groups  = rule.value.api_groups
+      resources = rule.value.resources
+      verbs  = rule.value.verbs
+    }
   }
 }
 resource "kubernetes_cluster_role_binding" "read_only_role_binding" {

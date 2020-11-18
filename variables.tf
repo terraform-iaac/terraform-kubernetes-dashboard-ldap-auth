@@ -92,3 +92,12 @@ variable "read_only_group_name" {
   type        = string
   default     = "dashboard-read-only"
 }
+
+variable "additional_user_rule" {
+  description = "Additional rules for user cluster role"
+  default     = []
+}
+variable "additional_readonly_rule" {
+  description = "Additional rules for read only cluster role"
+  default     = []
+}
