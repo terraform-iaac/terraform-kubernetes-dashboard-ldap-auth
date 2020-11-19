@@ -48,11 +48,11 @@ locals {
     },
     {
       name = "LDAP_BIND_DN"
-      value = "cn=reader,ou=users,${var.ldap_dn_search}"
+      value = "cn=${var.ldap_reader_user},ou=users,${var.ldap_dn_search}"
     },
     {
       name = "LDAP_REQUIRED_GROUP"
-      value = "cn=dashboard-login,ou=groups,${var.ldap_dn_search}"
+      value = "cn=${var.login_group_name},ou=groups,${var.ldap_dn_search}"
     },
     {
       name = "LDAP_URL"

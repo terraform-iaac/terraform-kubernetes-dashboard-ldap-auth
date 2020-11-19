@@ -46,6 +46,10 @@ variable "additional_groups" {
 }
 
 # LDAP URL config
+variable "ldap_reader_user" {
+  description = "Bind username which need for access to read info about users in LDAP server"
+  default     = "reader"
+}
 variable "ldap_reader_password" {
   description = "Bind user password which need for access to read info about users in LDAP server"
   default     = "lam"
@@ -77,6 +81,11 @@ variable "ldap_filter" {
 }
 
 # LDAP groups name
+variable "login_group_name" {
+  description = "Login group name in LDAP server (must consist admin, users and readonly groups)"
+  type        = string
+  default     = "dashboard-login"
+}
 variable "admin_group_name" {
   description = "Admin group name in LDAP server"
   type        = string
