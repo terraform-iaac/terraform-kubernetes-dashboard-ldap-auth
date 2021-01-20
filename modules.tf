@@ -2,9 +2,9 @@
 module "auth_deploy" {
   source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.8"
 
-  name          = "dashboard-ldap-auth"
+  name          = "${var.prefix_name}kubernetes-dashboard-ldap-auth"
   namespace     = var.namespace
-  image         = "gregsolutions/k8s_dashboard_ldap_auth_service:latest"
+  image         = var.auth_docker_image
   internal_port = var.service_ports
 
   env        = local.auth_env
@@ -22,12 +22,11 @@ module "auth_service" {
 module "recreate_token_deploy" {
   source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.8"
 
-  name      = "tokens-for-dashboard"
+  name      = "${var.prefix_name}kubernetes-dashboard-recreate-tokens"
   namespace = var.namespace
-  image     = "gregsolutions/k8s_dashboard_ldap_auth_recreate_tokens:latest"
-  tty       = true
+  image     = var.recreate_token_docker_image
 
-  service_account_name  = kubernetes_service_account.admin_service_account[0].metadata[0].name
+  service_account_name  = var.create_admin_role ? kubernetes_service_account.admin_service_account[0].metadata[0].name : var.cluster_admin_role
   service_account_token = true
 
   env = local.tokens_env

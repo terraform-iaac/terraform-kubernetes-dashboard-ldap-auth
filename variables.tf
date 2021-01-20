@@ -1,22 +1,42 @@
+variable "prefix_name" {
+  description = "Prefix for deployments & services & secrets (you know ;)"
+  default     = ""
+}
 variable "namespace" {
-  description = "Namespace name"
+  description = "Kubernetes Dashboard namespace"
   type        = string
-  default     = "kubernetes-dashboard"
 }
 
+# Bool
 variable "create_admin_role" {
-  description = "Create admin token for auth"
+  description = "Create admin service account & token for auth"
   default     = true
 }
 variable "create_user_role" {
-  description = "Create user token for auth"
+  description = "Create user service account & token for auth"
   default     = true
 }
 variable "create_read_only_role" {
-  description = "Create read only token for auth"
+  description = "Create read only service account & token for auth"
   default     = true
 }
 
+# RBAC
+variable "additional_user_rule" {
+  description = "Additional rules for user cluster role"
+  default     = []
+}
+variable "additional_readonly_rule" {
+  description = "Additional rules for read only cluster role"
+  default     = []
+}
+variable "cluster_admin_role" {
+  description = "If create_admin_role false, add admin service account by yourself. Need for recreate tokens."
+  type        = string
+  default     = null
+}
+
+# SA name
 variable "admin_service_account" {
   description = "Admin Service Account (full access)"
   default     = "kubernetes-dashboard-admin-ldap-auth"
@@ -29,32 +49,16 @@ variable "read_only_service_account" {
   description = "Read Only Service Account (low level access only for read)"
   default     = "kubernetes-dashboard-read-only-ldap-auth"
 }
-variable "service_ports" {
-  description = "Ports for auth request from ingress to service"
-  default = [
-    {
-      name          = "auth"
-      internal_port = "80"
-      external_port = "80"
-    }
-  ]
-}
-variable "additional_groups" {
-  type        = list(string)
-  description = "Add more group of users"
-  default     = []
-}
 
-# LDAP URL config
+# LDAP config
 variable "ldap_reader_user" {
   description = "Bind username which need for access to read info about users in LDAP server"
   default     = "reader"
 }
 variable "ldap_reader_password" {
-  description = "Bind user password which need for access to read info about users in LDAP server"
-  default     = "lam"
+  description = "Bind user password which need for access to read info about users in LDAP server. (Example: "
 }
-variable "ldap_domain_name" {
+variable "ldap_domain_url" {
   description = "Host domain name where ldap deployed"
 }
 variable "ldap_port" {
@@ -75,38 +79,49 @@ variable "ldap_scope" {
   default     = "sub"
 }
 variable "ldap_filter" {
-  description = ""
+  description = "Used in apache"
   type        = string
   default     = "(objectClass=*)"
 }
 
 # LDAP groups name
-variable "login_group_name" {
+variable "ldap_login_group" {
   description = "Login group name in LDAP server (must consist admin, users and readonly groups)"
   type        = string
-  default     = "dashboard-login"
+  default     = "k8s-dashboard-login"
 }
-variable "admin_group_name" {
+variable "ldap_admin_group" {
   description = "Admin group name in LDAP server"
   type        = string
-  default     = "dashboard-admin"
+  default     = "k8s-dashboard-admin"
 }
-variable "user_group_name" {
+variable "ldap_user_group" {
   description = "User group name in LDAP server"
   type        = string
-  default     = "dashboard-user"
+  default     = "k8s-dashboard-user"
 }
-variable "read_only_group_name" {
+variable "ldap_read_only_group" {
   description = "Read only group name in LDAP server"
   type        = string
-  default     = "dashboard-read-only"
+  default     = "k8s-dashboard-read-only"
 }
 
-variable "additional_user_rule" {
-  description = "Additional rules for user cluster role"
-  default     = []
+# Deployments
+variable "recreate_token_docker_image" {
+  description = "Docker Image for auth service"
+  default     = "gregsolutions/k8s_dashboard_ldap_auth_recreate_tokens:latest"
 }
-variable "additional_readonly_rule" {
-  description = "Additional rules for read only cluster role"
-  default     = []
+variable "auth_docker_image" {
+  description = "DockerImage for recreate token service"
+  default     = "gregsolutions/k8s_dashboard_ldap_auth_service:latest"
+}
+variable "service_ports" {
+  description = "Ports for auth request from ingress to service"
+  default = [
+    {
+      name          = "auth"
+      internal_port = "80"
+      external_port = "80"
+    }
+  ]
 }
