@@ -26,15 +26,6 @@ resource "kubernetes_cluster_role_binding" "admin_role_binding" {
   }
 }
 
-data "kubernetes_secret" "admin_token" {
-  count = var.create_admin_role ? 1 : 0
-
-  metadata {
-    name      = kubernetes_service_account.admin_service_account[0].default_secret_name
-    namespace = var.namespace
-  }
-}
-
 resource "kubernetes_secret" "admin_auth_token" {
   count = var.create_admin_role ? 1 : 0
 
