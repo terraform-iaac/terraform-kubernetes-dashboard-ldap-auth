@@ -1,5 +1,5 @@
 variable "prefix_name" {
-  description = "Prefix for deployments & services & secrets (you know ;)"
+  description = "Prefix for deployments, services & secrets"
   default     = ""
 }
 variable "namespace" {
@@ -56,7 +56,7 @@ variable "ldap_reader_user" {
   default     = "reader"
 }
 variable "ldap_reader_password" {
-  description = "Bind user password which need for access to read info about users in LDAP server. (Example: "
+  description = "Bind user password which need for access to read info about users in LDAP server"
 }
 variable "ldap_domain_url" {
   description = "Host domain name where ldap deployed"
@@ -109,11 +109,11 @@ variable "ldap_read_only_group" {
 # Deployments
 variable "recreate_token_docker_image" {
   description = "Docker Image for auth service"
-  default     = "gregsolutions/k8s_dashboard_ldap_auth_recreate_tokens:latest"
+  default     = "iaac/kubernetes-dashboard-ldap-auth-recreate-tokens:latest"
 }
 variable "auth_docker_image" {
   description = "DockerImage for recreate token service"
-  default     = "gregsolutions/k8s_dashboard_ldap_auth_service:latest"
+  default     = "iaac/kubernetes-dashboard-ldap-auth-service:latest"
 }
 variable "service_ports" {
   description = "Ports for auth request from ingress to service"
