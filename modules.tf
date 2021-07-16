@@ -1,6 +1,7 @@
 # Auth service deployment
 module "auth_deploy" {
-  source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.8"
+  source  = "terraform-iaac/deployment/kubernetes"
+  version = "1.1.3"
 
   name          = "${var.prefix_name}kubernetes-dashboard-ldap-auth"
   namespace     = var.namespace
@@ -11,7 +12,8 @@ module "auth_deploy" {
   env_secret = local.auth_env_secret
 }
 module "auth_service" {
-  source = "git::https://github.com/greg-solutions/terraform_k8s_service.git?ref=v1.0.0"
+  source  = "terraform-iaac/service/kubernetes"
+  version = "1.0.3"
 
   app_name      = module.auth_deploy.name
   app_namespace = var.namespace
@@ -20,7 +22,8 @@ module "auth_service" {
 
 # Deployment for recreate new tokens for users service account
 module "recreate_token_deploy" {
-  source = "git::https://github.com/greg-solutions/terraform_k8s_deploy.git?ref=v1.0.8"
+  source  = "terraform-iaac/deployment/kubernetes"
+  version = "1.1.3"
 
   name      = "${var.prefix_name}kubernetes-dashboard-recreate-tokens"
   namespace = var.namespace
