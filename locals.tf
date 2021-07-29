@@ -1,4 +1,8 @@
 locals {
+  labels = {
+    "app" = "${var.prefix_name}kubernetes-dashboard-ldap-auth"
+  }
+
   tokens_env = [
     {
       name  = "ADMIN_TOKEN_NAME"

@@ -11,7 +11,7 @@ You can choose whatever group you want/won't to add to LDAP auth.
 Name | Description
 --- | --- |
 Terraform | >= v0.14.9
-Kubernetes provider | <= 1.11.1
+Kubernetes provider | >= 2.0.1
 Docker | <= 20.10.5
 
 ## Usage
