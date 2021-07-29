@@ -12,7 +12,6 @@ Name | Description
 --- | --- |
 Terraform | >= v0.14.9
 Kubernetes provider | >= 2.0.1
-Docker | <= 20.10.5
 
 ## Usage
 ### Terraform
