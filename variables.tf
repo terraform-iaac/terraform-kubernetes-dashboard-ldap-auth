@@ -7,6 +7,12 @@ variable "namespace" {
   type        = string
 }
 
+variable "node_selector" {
+  description = "(Optional) Specify node selector for pod"
+  type        = map(string)
+  default     = null
+}
+
 # Bool
 variable "create_admin_role" {
   description = "Create admin service account & token for auth"

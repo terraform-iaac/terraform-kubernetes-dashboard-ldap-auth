@@ -90,6 +90,7 @@ resource "kubernetes_deployment" "deploy" {
 
           tty = true
         }
+        node_selector = var.node_selector
       }
     }
   }
